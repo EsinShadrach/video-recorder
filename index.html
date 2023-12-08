@@ -1,58 +1,58 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Screen Recording</title>
-</head>
-<body>
-  <video id="screen-video" controls autoplay></video>
+  <head>
+    <title>Screen Recording</title>
+  </head>
+  <body>
+    <video id="screen-video" controls autoplay></video>
 
-  <button onclick="startRecording()">Start Recording</button>
-  <button onclick="stopRecording()">Stop Recording</button>
+    <button onclick="startRecording()">Start Recording</button>
+    <button onclick="stopRecording()">Stop Recording</button>
 
-  <script>
-    let mediaRecorder;
-    const chunks = [];
+    <script>
+      let mediaRecorder;
+      const chunks = [];
 
-    // Select the video element from the DOM
-    const videoElement = document.getElementById('screen-video');
+      // Select the video element from the DOM
+      const videoElement = document.getElementById("screen-video");
 
-    // Function to handle recording start
-    function startRecording() {
-      navigator.mediaDevices.getDisplayMedia({ video: true })
-        .then(function(stream) {
-          // Create a new MediaRecorder instance
-          mediaRecorder = new MediaRecorder(stream);
+      // Function to handle recording start
+      function startRecording() {
+        navigator.mediaDevices
+          .getDisplayMedia({ video: true })
+          .then(function (stream) {
+            // Create a new MediaRecorder instance
+            mediaRecorder = new MediaRecorder(stream);
 
-          // Event handler for dataavailable event
-          mediaRecorder.ondataavailable = function(event) {
-            chunks.push(event.data);
-          };
+            // Event handler for dataavailable event
+            mediaRecorder.ondataavailable = function (event) {
+              chunks.push(event.data);
+            };
 
-          // Event handler for stop event
-          mediaRecorder.onstop = function() {
-            // Create a new Blob from the recorded chunks
-            const blob = new Blob(chunks, { type: 'video/webm' });
+            // Event handler for stop event
+            mediaRecorder.onstop = function () {
+              // Create a new Blob from the recorded chunks
+              const blob = new Blob(chunks, { type: "video/webm" });
 
-            // Set the video source to the recorded video
-            videoElement.src = URL.createObjectURL(blob);
-          };
+              // Set the video source to the recorded video
+              videoElement.src = URL.createObjectURL(blob);
+            };
 
-          // Start recording
-          mediaRecorder.start();
-        })
-        .catch(function(error) {
-          console.error('Error accessing media devices:', error);
-        });
-    }
-
-    // Function to handle recording stop
-    function stopRecording() {
-      if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-        // Stop recording
-        mediaRecorder.stop();
+            // Start recording
+            mediaRecorder.start();
+          })
+          .catch(function (error) {
+            console.error("Error accessing media devices:", error);
+          });
       }
-    }
-  </script>
-</body>
-</html>
 
+      // Function to handle recording stop
+      function stopRecording() {
+        if (mediaRecorder && mediaRecorder.state !== "inactive") {
+          // Stop recording
+          mediaRecorder.stop();
+        }
+      }
+    </script>
+  </body>
+</html>
